@@ -105,6 +105,8 @@ def render(total_config: TotalConfig, cookiefile: str | None = None) -> None:
                 tab_config.output_sr.instance,
                 tab_config.output_format.instance,
                 tab_config.output_name.instance,
+                tab_config.eq_enabled.instance,
+                tab_config.eq_clarity.instance,
             ],
             outputs=[song_cover, *tab_config.intermediate_audio.all],
             concurrency_limit=1,
@@ -294,6 +296,16 @@ def _render_mixing_options(tab_config: OneClickSongGenerationConfig) -> None:
                 tab_config.wet_level.instantiate()
                 tab_config.dry_level.instantiate()
                 tab_config.damping.instantiate()
+        with gr.Accordion("Equalizer (Vocal clarity)", open=False):
+            with gr.Row():
+                tab_config.eq_enabled.instantiate()
+                tab_config.eq_clarity.instantiate()
+            tab_config.eq_enabled.instance.change(
+                partial(toggle_visibility, targets={True}),
+                inputs=tab_config.eq_enabled.instance,
+                outputs=tab_config.eq_clarity.instance,
+                show_progress="hidden",
+            )
 
         with gr.Accordion("Volume controls (dB)", open=False), gr.Row():
             tab_config.main_gain.instantiate()

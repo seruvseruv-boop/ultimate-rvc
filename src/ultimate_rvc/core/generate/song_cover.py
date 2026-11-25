@@ -645,6 +645,7 @@ def _add_effects(
     wet_level: float = 0.2,
     dry_level: float = 0.8,
     damping: float = 0.7,
+    eq_clarity: float = 0.0,
 ) -> None:
     """
     Add high-pass filter, compressor and reverb effects to an audio
@@ -666,18 +667,21 @@ def _add_effects(
         The damping of the reverb effect.
 
     """
-    board = pedalboard.Pedalboard(
-        [
-            pedalboard.HighpassFilter(),
-            pedalboard.Compressor(ratio=4, threshold_db=-15),
-            pedalboard.Reverb(
-                room_size=room_size,
-                dry_level=dry_level,
-                wet_level=wet_level,
-                damping=damping,
-            ),
-        ],
+    effects = [
+        pedalboard.HighpassFilter(),
+        pedalboard.Compressor(ratio=4, threshold_db=-15),
+    ]
+    if eq_clarity > 0:
+        effects.append(pedalboard.HighShelfFilter(cutoff_frequency_hz=3500, gain_db=eq_clarity))
+    effects.append(
+        pedalboard.Reverb(
+            room_size=room_size,
+            dry_level=dry_level,
+            wet_level=wet_level,
+            damping=damping,
+        ),
     )
+    board = pedalboard.Pedalboard(effects)
 
     with (
         pedalboard.io.AudioFile(str(audio_track)) as f,
@@ -702,6 +706,7 @@ def postprocess(
     wet_level: float = 0.2,
     dry_level: float = 0.8,
     damping: float = 0.7,
+    eq_clarity: float = 0.0,
 ) -> Path:
     """
     Apply high-pass filter, compressor and reverb effects to a vocals
@@ -936,6 +941,8 @@ def run_pipeline(
     output_name: str | None = None,
     cookiefile: StrPath | None = None,
     progress_bar: gr.Progress | None = None,
+    eq_enabled: bool = False,
+    eq_clarity: float = 3.0,
 ) -> tuple[Path, ...]:
     """
     Run the song cover generation pipeline.
@@ -1093,6 +1100,7 @@ def run_pipeline(
         wet_level,
         dry_level,
         damping,
+        eq_clarity if eq_enabled else 0.0,
     )
     display_progress("[~] Pitch-shifting instrumentals...", 6 / 9, progress_bar)
     shifted_instrumentals_track = pitch_shift(

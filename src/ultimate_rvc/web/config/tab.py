@@ -325,6 +325,21 @@ class SongGenerationConfig(GenerationConfig):
         minimum=0.0,
         maximum=1.0,
     )
+    eq_enabled: CheckboxConfig = CheckboxConfig(
+        label="Vocal clarity equalizer",
+        info="Enable equalizer to brighten and clarify muffled vocals.",
+        value=False,
+        exclude_value=True,
+    )
+    eq_clarity: SliderConfig = SliderConfig(
+        label="Equalizer clarity boost (dB)",
+        info="Increase to make muffled vocals brighter and clearer.",
+        value=3.0,
+        minimum=0.0,
+        maximum=12.0,
+        step=0.5,
+        visible=False,
+    )
     main_gain: SliderConfig = SliderConfig.gain(
         label="Main gain",
         info="The gain to apply to the main vocals.",
