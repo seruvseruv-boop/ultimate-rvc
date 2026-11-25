@@ -163,7 +163,7 @@ class OneClickSongGenerationConfig(SongGenerationConfig):
     show_intermediate_audio: CheckboxConfig = CheckboxConfig(
         label="Show intermediate audio",
         info="Show intermediate audio tracks produced during song cover generation.",
-        value=False,
+        value=True,
         exclude_value=True,
     )
     intermediate_audio: SongIntermediateAudioConfig = SongIntermediateAudioConfig()

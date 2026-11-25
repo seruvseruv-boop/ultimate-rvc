@@ -114,8 +114,8 @@ class GenerationConfig(BaseTabConfig):
     )
     f0_method: DropdownConfig = DropdownConfig(
         label="Pitch extraction algorithm",
-        info="RMVPE is recommended for most cases and is the default.",
-        value=F0Method.RMVPE,
+        info="RMVPE+ is recommended for cleanest pitch tracking without distortion.",
+        value=F0Method.RMVPE_PLUS,
         choices=list(F0Method),
         multiselect=False,
     )
@@ -126,7 +126,7 @@ class GenerationConfig(BaseTabConfig):
             " Decrease to potentially reduce artifacts coming from the voice"
             " model.<br><br><br>"
         ),
-        value=0.3,
+        value=0.75,
         minimum=0.0,
         maximum=1.0,
     )
@@ -212,7 +212,7 @@ class GenerationConfig(BaseTabConfig):
     output_format: DropdownConfig = DropdownConfig(
         label="Output format",
         info="The audio format of the mixed output track.",
-        value=AudioExt.MP3,
+        value=AudioExt.WAV,
         choices=list(AudioExt),
     )
     output_name: TextboxConfig = TextboxConfig(
@@ -335,7 +335,8 @@ class SongGenerationConfig(GenerationConfig):
     )
     backup_gain: SliderConfig = SliderConfig.gain(
         label="Backup gain",
-        info="The gain to apply to the backup vocals.",
+        info="The gain to apply to the backup vocals. Set to -20 for 100% clean instrumental.",
+        default_value=-20,
     )
 
 
