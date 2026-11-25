@@ -1037,6 +1037,13 @@ def run_pipeline(
         SeparationModel.UVR_MDX_NET_VOC_FT,
         SegmentSize.SEG_512,
     )
+    display_progress("[~] Cleaning instrumentals (UVR Inst HQ 4)...", 1.5 / 9, progress_bar)
+    instrumentals_track, _ = separate_audio(
+        instrumentals_track,
+        song_dir,
+        SeparationModel.UVR_MDX_NET_INST_HQ_4,
+        SegmentSize.SEG_512,
+    )
     display_progress(
         "[~] Separating main vocals from backup vocals...",
         2 / 9,

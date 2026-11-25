@@ -17,6 +17,7 @@ class SeparationModel(StrEnum):
     UVR_MDX_NET_VOC_FT = "UVR-MDX-NET-Voc_FT.onnx"
     UVR_MDX_NET_KARA_2 = "UVR_MDXNET_KARA_2.onnx"
     REVERB_HQ_BY_FOXJOY = "Reverb_HQ_By_FoxJoy.onnx"
+    UVR_MDX_NET_INST_HQ_4 = "UVR-MDX-NET-Inst_HQ_4.onnx"
 
 
 class SegmentSize(IntEnum):
