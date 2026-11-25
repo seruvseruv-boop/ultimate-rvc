@@ -569,7 +569,9 @@ class RMVPE0Predictor:
         hidden = self.mel2hidden(mel)
         hidden = hidden.squeeze(0).cpu().numpy()
         f0 = self.decode(hidden, thred=thred)
-        f0 = np.clip(f0, a_min=f0_min, a_max=f0_max)
+        # Only clip voiced frames (f0 > 0); preserve silence (f0 == 0)
+        voiced = f0 > 0
+        f0[voiced] = np.clip(f0[voiced], a_min=f0_min, a_max=f0_max)
         return f0
 
     def to_local_average_cents(self, salience, thred=0.05):
