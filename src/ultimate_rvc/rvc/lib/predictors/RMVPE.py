@@ -550,6 +550,28 @@ class RMVPE0Predictor:
         f0 = self.decode(hidden, thred=thred)
         return f0
 
+    def infer_from_audio_with_pitch(self, audio, thred=0.03, f0_min=50, f0_max=1100):
+        """
+        Infers F0 from audio with pitch clipping (RMVPE+).
+
+        Args:
+            audio (np.ndarray): Audio signal.
+            thred (float, optional): Threshold for salience. Defaults to 0.03.
+            f0_min (int, optional): Minimum f0 limit. Defaults to 50.
+            f0_max (int, optional): Maximum f0 limit. Defaults to 1100.
+
+        """
+        audio = torch.from_numpy(audio).float().to(self.device).unsqueeze(0)
+        mel = self.mel_extractor(audio, center=True)
+        del audio
+        with torch.no_grad():
+            torch.cuda.empty_cache()
+        hidden = self.mel2hidden(mel)
+        hidden = hidden.squeeze(0).cpu().numpy()
+        f0 = self.decode(hidden, thred=thred)
+        f0 = np.clip(f0, a_min=f0_min, a_max=f0_max)
+        return f0
+
     def to_local_average_cents(self, salience, thred=0.05):
         """
         Converts salience to local average cents.

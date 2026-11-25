@@ -285,7 +285,7 @@ class SliderConfig(InfoComponentConfig[float | None, gr.Slider]):
         )
 
     @classmethod
-    def gain(cls, label: str, info: str) -> SliderConfig:
+    def gain(cls, label: str, info: str, default_value: int = 0) -> SliderConfig:
         """
         Create a slider configuration for gain.
 
@@ -295,6 +295,8 @@ class SliderConfig(InfoComponentConfig[float | None, gr.Slider]):
             The label for the gain slider.
         info : str
             The information text for the gain slider.
+        default_value : int, default=0
+            Default value for the gain.
 
         Returns
         -------
@@ -302,7 +304,7 @@ class SliderConfig(InfoComponentConfig[float | None, gr.Slider]):
             A slider configuration for gain.
 
         """
-        return cls(label=label, info=info, value=0, minimum=-20, maximum=20, step=1)
+        return cls(label=label, info=info, value=default_value, minimum=-20, maximum=20, step=1)
 
     @classmethod
     def cpu_cores(cls) -> SliderConfig:

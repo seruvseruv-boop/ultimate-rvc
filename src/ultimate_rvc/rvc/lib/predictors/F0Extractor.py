@@ -87,6 +87,14 @@ class F0Extractor:
                 device=config.device,
             )
             f0 = model_rmvpe.infer_from_audio(self.wav16k, thred=0.03)
+        elif method == "rmvpe+":
+            model_rmvpe = RMVPE0Predictor(
+                os.path.join(str(RVC_MODELS_DIR), "predictors", "rmvpe.pt"),
+                device=config.device,
+            )
+            f0 = model_rmvpe.infer_from_audio_with_pitch(
+                self.wav16k, thred=0.03, f0_min=self.f0_min, f0_max=self.f0_max
+            )
 
         else:
             raise ValueError(f"Unknown method: {self.method}")

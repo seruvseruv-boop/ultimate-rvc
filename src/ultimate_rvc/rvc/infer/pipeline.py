@@ -247,6 +247,18 @@ class Pipeline:
             )
             f0 = model.get_f0(x, filter_radius=0.03)
             del model
+        elif f0_method == "rmvpe+":
+            model = RMVPE(
+                device=self.device, sample_rate=self.sample_rate, hop_size=self.window
+            )
+            f0 = model.get_f0(
+                x,
+                filter_radius=0.03,
+                f0_min=self.f0_min,
+                f0_max=self.f0_max,
+                is_plus=True,
+            )
+            del model
         elif f0_method == "fcpe":
             model = FCPE(
                 device=self.device, sample_rate=self.sample_rate, hop_size=self.window

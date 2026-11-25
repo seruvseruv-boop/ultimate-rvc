@@ -34,6 +34,7 @@ class F0Method(StrEnum):
     """Enumeration of pitch extraction methods."""
 
     RMVPE = "rmvpe"
+    RMVPE_PLUS = "rmvpe+"
     CREPE = "crepe"
     CREPE_TINY = "crepe-tiny"
     FCPE = "fcpe"
