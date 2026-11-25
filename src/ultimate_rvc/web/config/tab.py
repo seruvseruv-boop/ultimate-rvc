@@ -158,7 +158,7 @@ class GenerationConfig(BaseTabConfig):
             "Whether to split the input voice track into smaller segments before"
             " converting it. This can improve output quality for longer voice tracks."
         ),
-        value=False,
+        value=True,
     )
     autotune_voice: CheckboxConfig = CheckboxConfig(
         label="Autotune converted voice",
@@ -290,10 +290,10 @@ class SongGenerationConfig(GenerationConfig):
     clean_voice: CheckboxConfig = CheckboxConfig(
         label="Clean converted voice",
         info="Whether to clean the converted voice using noise reduction algorithms.",
-        value=False,
+        value=True,
         exclude_value=True,
     )
-    clean_strength: SliderConfig = SliderConfig.clean_strength(visible=False)
+    clean_strength: SliderConfig = SliderConfig.clean_strength(visible=True)
     room_size: SliderConfig = SliderConfig(
         label="Room size",
         info=(
@@ -642,7 +642,7 @@ class TrainingConfig(BaseTabConfig):
         value=False,
         exclude_value=True,
     )
-    clean_strength: SliderConfig = SliderConfig.clean_strength(visible=False)
+    clean_strength: SliderConfig = SliderConfig.clean_strength(visible=True)
     split_method: DropdownConfig = DropdownConfig(
         label="Audio splitting method",
         info=(
